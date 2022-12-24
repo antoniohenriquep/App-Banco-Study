@@ -9,7 +9,7 @@ export default function App() {
   const [name, setName] = useState('')
   const [account, setAccount] = useState()
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
-  var myName = ''
+ 
   function getName(text){
     setName(text)
   }
