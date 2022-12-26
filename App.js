@@ -1,18 +1,22 @@
 import React, { useRef, useState } from 'react';
-import { View , Text, StyleSheet, TextInput, Button} from 'react-native';
+import { View , Text, StyleSheet, TextInput, Button, Pressable} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import DatePicker from 'react-native-date-picker';
+import PressableField from './src/Components/PressableField';
 
 export default function App() 
 {
-
   const [name, setName] = useState()
   const [account, setAccount] = useState()
   const [age, setAge] = useState()
   const [gender, setGender] = useState()
   const [credit, setCredit] = useState(100)
   const [isStudent, setIsStudent] = useState(false)
+  const[isOpen, setIsOpen] = useState(false)
+
+  const [birthDate, setBirthDate] = useState()
+  
 
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
  
@@ -35,11 +39,16 @@ export default function App()
     }
   }
 
+  function pickDate(date)
+  {
+    setBirthDate(date)
+    setIsOpen(false)
+  }
 
  return (
    <View>
-      <Text>Nome completo</Text>
 
+      <Text>Nome completo</Text>
       <TextInput 
       ref={inputRef}
       style ={styles.nameInput} 
@@ -48,6 +57,21 @@ export default function App()
       autoCapitalize= 'words'
       onChangeText={(text) => myName = text}
       />
+
+      <PressableField 
+      onPress = {() =>{setIsOpen(true)}}/>
+      
+      <DatePicker
+      modal
+      open = {isOpen}
+      onConfirm = {(date) =>{pickDate(date)}}
+      onCancel = {()=> setIsOpen(false)}
+      mode = 'date'
+      maximumDate={new Date("2004-01-01")}
+      />
+
+      
+
 
       <Button title='Concluir' onPress={() =>{
         alert(myName)
