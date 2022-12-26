@@ -4,15 +4,37 @@ import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 
 
-export default function App() {
+export default function App() 
+{
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState()
   const [account, setAccount] = useState()
+  const [age, setAge] = useState()
+  const [gender, setGender] = useState()
+  const [credit, setCredit] = useState(100)
+  const [isStudent, setIsStudent] = useState(false)
+
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
  
-  function getName(text){
+  function setAccountName(text)
+  {
     setName(text)
   }
+
+  function createAccount()
+  {
+    if(name && age && gender)
+    {
+      setAccount(
+        {name: name, age: age, gender:gender, credit: credit, isStudent: isStudent}
+      )
+    }
+    else
+    {
+      alert("Preencha todos os dados")
+    }
+  }
+
 
  return (
    <View>
