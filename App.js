@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { View , Text, StyleSheet, TextInput, Button} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
-
+import DatePicker from 'react-native-date-picker';
 
 export default function App() 
 {
