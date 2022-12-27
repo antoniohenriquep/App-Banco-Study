@@ -7,7 +7,7 @@ export default function PressableField(props) {
     onPress={props.onPress} 
     style ={[styles.container, props.style]}>      
             <Text>
-                Ola
+                {props.text}
             </Text>
     </Pressable>
   );

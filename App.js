@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View , Text, StyleSheet, TextInput, Button, Pressable} from 'react-native';
+import { View , Text, StyleSheet, TextInput, Button, Pressable, Switch} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import DatePicker from 'react-native-date-picker';
@@ -14,7 +14,7 @@ export default function App()
   const [gender, setGender] = useState()
   const [credit, setCredit] = useState(100)
   const [isStudent, setIsStudent] = useState(false)
-  const[isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [birthDate, setBirthDate] = useState(new Date())
   
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
@@ -53,11 +53,14 @@ export default function App()
       //onChangeText={(text) => myName = text}
       />
 
+      <Text>Informe sua data de nascimento</Text>
       <PressableField 
       style = {styles.pickerButton}
       onPress = {() =>{
         setIsOpen(true)
-        console.log('ola')}}/>
+        console.log('ola')}}
+      text = {birthDate}
+        />
       
       
       <DatePicker
@@ -71,7 +74,9 @@ export default function App()
       mode = 'date'
       maximumDate={new Date("2004-01-01")}
       />
-      
+
+        
+      <Text>Informe seu gênero</Text>
       <Picker
       selectedValue={genderOption}
       onValueChange = {(value, index) =>{
@@ -83,6 +88,18 @@ export default function App()
         <Picker.Item key ={1} value ={"Masculino"} label = "Masculino"/>
         <Picker.Item key ={2} value ={"Feminino"} label = "Feminino"/>
       </Picker>
+
+      <Text>Limite</Text>
+      <Slider 
+      value={credit}
+      minimumValue={100}
+      maximumValue={1000}
+      onValueChange ={(value) => setCredit(value)}/>
+
+      <Text>Conta estudante</Text>
+      <Switch 
+      value ={isStudent} 
+      onValueChange = {setIsStudent(!isStudent)}/>
 
       <Text>{genderOption}</Text>
       <Text>{gender}</Text>
