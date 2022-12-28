@@ -1,9 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { View , Text, StyleSheet, TextInput, Button, Pressable, Switch} from 'react-native';
+import { View , Text, StyleSheet, TextInput, Button} from 'react-native';
+
+
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import DatePicker from 'react-native-date-picker';
 import PressableField from './src/Components/PressableField';
+import MySwitch from './src/Components/MySwitch';
+
 
 export default function App() 
 {
@@ -16,6 +20,7 @@ export default function App()
   const [isStudent, setIsStudent] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [birthDate, setBirthDate] = useState(new Date())
+  const [dateField, setDateField] = useState(dateFormat)
   
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
  
@@ -38,11 +43,14 @@ export default function App()
     }
   }
 
-  
+  function dateFormat()
+  {
+    return(birthDate.getDate()+"/"+birthDate.getMonth()+"/"+birthDate.getFullYear()) 
+  }
 
  return (
    <View>
-
+      
       <Text>Nome completo</Text>
       <TextInput 
       ref={inputRef}
@@ -50,30 +58,30 @@ export default function App()
       placeholder = "Nome completo" 
       inlineImageLeft= 'person_icon'
       autoCapitalize= 'words'
-      //onChangeText={(text) => myName = text}
       />
 
-      <Text>Informe sua data de nascimento</Text>
+      <Text>Informe sua data de nascimento </Text>
+      
+      
       <PressableField 
       style = {styles.pickerButton}
       onPress = {() =>{
         setIsOpen(true)
         console.log('ola')}}
-      text = {birthDate}
+      text = {dateField}
         />
-      
-      
-      <DatePicker
+    <DatePicker
       modal
-      date={new Date()}
+      date={birthDate}
       open = {isOpen}
       onConfirm = {(date)=>{
         setBirthDate(date)
+        setDateField(dateFormat)
         setIsOpen(false)}}
       onCancel = {()=> setIsOpen(false)}
       mode = 'date'
-      maximumDate={new Date("2004-01-01")}
       />
+      
 
         
       <Text>Informe seu gênero</Text>
@@ -82,7 +90,6 @@ export default function App()
       onValueChange = {(value, index) =>{
         setGenderOption(value)
         setGender(value)
-        //console.log(gender+"\n" +genderOption)
       }}>
         <Picker.Item key ={0} value ={null} label = "Selecione um gênero"/>
         <Picker.Item key ={1} value ={"Masculino"} label = "Masculino"/>
@@ -97,12 +104,11 @@ export default function App()
       onValueChange ={(value) => setCredit(value)}/>
 
       <Text>Conta estudante</Text>
-      <Switch 
+      <MySwitch 
       value ={isStudent} 
-      onValueChange = {setIsStudent(!isStudent)}/>
+      onValueChange = {() =>setIsStudent(!isStudent)}/>
 
-      <Text>{genderOption}</Text>
-      <Text>{gender}</Text>
+
       <Button title='Concluir' onPress={() =>{
         //alert(myName)
         inputRef.current.clear()
@@ -114,7 +120,7 @@ export default function App()
 
 const styles = StyleSheet.create({
   container:{
-    
+    flex:1
   },
   nameInput:{
     width:200,
