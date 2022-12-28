@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View , Text, StyleSheet, TextInput, Button} from 'react-native';
+import { View , Text, StyleSheet, TextInput, Button, Modal} from 'react-native';
 
 
 import { Picker } from '@react-native-picker/picker';
@@ -21,6 +21,7 @@ export default function App()
   const [isOpen, setIsOpen] = useState(false)
   const [birthDate, setBirthDate] = useState(new Date())
   const [dateField, setDateField] = useState(dateFormat)
+  const [showProfile, setShowProfile] = useState(false)
   
   const inputRef = useRef(null) //O useRef funcina de um jeito similar a ID do HTML, possibilitando manipular o componente diretamente
  
@@ -31,11 +32,12 @@ export default function App()
 
   function createAccount()
   {
-    if(name && age && gender)
+    if(name && age >= 18 && gender )
     {
       setAccount(
         {name: name, age: age, gender:gender, credit: credit, isStudent: isStudent}
       )
+        setShowProfile(true)
     }
     else
     {
@@ -49,10 +51,11 @@ export default function App()
   }
 
 
-  function calculateAge(){
+  function calculateAge()
+  {
     let currentDate = new Date()
-    setAge(parseInt(birthDate.getFullYear()) - parseInt(currentDate.getFullYear()))
-    console.log(age)
+    let ageMili = parseInt((Date.parse(currentDate) - Date.parse(birthDate))/(3.1556926 * Math.pow(10,10)))
+    setAge(ageMili)
   }
  return (
    <View>
@@ -119,7 +122,17 @@ export default function App()
       <Button title='Concluir' onPress={() =>{
         //alert(myName)
         inputRef.current.clear()
+
       }}/>
+
+      <Modal visible={showProfile}>
+        <Text>Nome: {account.name}</Text>
+        <Text>Idade: {account.age}</Text>
+        <Text>Genero: {account.gender}</Text>
+        <Text>Limite: {account.credit}</Text>
+        <Text>Estudante:{account.isStudent ? "Sim" : "Não"}</Text>
+        <Text></Text>
+      </Modal>
       
    </View>
   );
