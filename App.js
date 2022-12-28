@@ -48,6 +48,12 @@ export default function App()
     return(birthDate.getDate()+"/"+birthDate.getMonth()+"/"+birthDate.getFullYear()) 
   }
 
+
+  function calculateAge(){
+    let currentDate = new Date()
+    setAge(parseInt(birthDate.getFullYear()) - parseInt(currentDate.getFullYear()))
+    console.log(age)
+  }
  return (
    <View>
       
@@ -77,7 +83,8 @@ export default function App()
       onConfirm = {(date)=>{
         setBirthDate(date)
         setDateField(dateFormat)
-        setIsOpen(false)}}
+        setIsOpen(false)
+        calculateAge()}}
       onCancel = {()=> setIsOpen(false)}
       mode = 'date'
       />
