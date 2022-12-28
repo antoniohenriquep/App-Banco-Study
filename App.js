@@ -7,6 +7,7 @@ import Slider from '@react-native-community/slider';
 import DatePicker from 'react-native-date-picker';
 import PressableField from './src/Components/PressableField';
 import MySwitch from './src/Components/MySwitch';
+import MyModal from './src/Components/MyModal';
 
 
 export default function App() 
@@ -41,13 +42,14 @@ export default function App()
     }
     else
     {
+      console.log(name+"\n"+age+ "\n" + gender)
       alert("Preencha todos os dados")
     }
   }
 
   function dateFormat()
   {
-    return(birthDate.getDate()+"/"+birthDate.getMonth()+"/"+birthDate.getFullYear()) 
+    return(birthDate.getDate()+"/"+(birthDate.getMonth()+1)+"/"+birthDate.getFullYear()) 
   }
 
 
@@ -63,6 +65,7 @@ export default function App()
       <Text>Nome completo</Text>
       <TextInput 
       ref={inputRef}
+      onChangeText = {(text) =>setAccountName(text)}
       style ={styles.nameInput} 
       placeholder = "Nome completo" 
       inlineImageLeft= 'person_icon'
@@ -122,17 +125,17 @@ export default function App()
       <Button title='Concluir' onPress={() =>{
         //alert(myName)
         inputRef.current.clear()
-
+        createAccount()
       }}/>
 
-      <Modal visible={showProfile}>
-        <Text>Nome: {account.name}</Text>
-        <Text>Idade: {account.age}</Text>
-        <Text>Genero: {account.gender}</Text>
-        <Text>Limite: {account.credit}</Text>
-        <Text>Estudante:{account.isStudent ? "Sim" : "Não"}</Text>
-        <Text></Text>
-      </Modal>
+    <MyModal
+    visible = {showProfile}
+    name = {account && account.name}
+    age = {account && account.age}
+    gender = {account && account.gender}
+    credit = {account && account.credit}
+    student = {account && account.isStudent ? "Sim" : "Não"}
+    />
       
    </View>
   );
